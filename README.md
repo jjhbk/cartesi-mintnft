@@ -41,6 +41,26 @@ var handlers = {
 var finish = { status: "accept" };
 ```
 
+### Add Mint-NFT route
+
+```javascript
+class MintNft extends AdvanceRoute {
+  execute = (request) => {
+    this.parse_request(request);
+    console.log("minting erc721 token.....");
+    const call = encodeFunctionData({
+      abi: erc721abi,
+      functionName: "mintTo",
+      args: [this.msg_sender],
+    });
+    return new Voucher(erc721_contract_address, hexToBytes(call));
+  };
+}
+
+router.addRoute("mint_nft", new MintNft(wallet));
+```
+
+
 ### send requests
 
 ```javascript
